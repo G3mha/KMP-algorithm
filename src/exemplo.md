@@ -36,80 +36,78 @@ grande, você pode isolá-la em um parágrafo.
 
 $$\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1$$
 
-Para inserir uma animação, use `md :` seguido do nome de uma pasta onde as
-imagens estão. Essa pasta também deve estar em *img*. (substituir por animação da aplicação do algorítmo em uma string)
 
-:bubble
+:Naive
 
-Código de aplicação do algorítmo em python
+:Vetor
 
-``` py
-def KMPSearch(pat, txt):
-    M = len(pat)
-    N = len(txt)
- 
-    # create lps[] that will hold the longest prefix suffix
-    # values for pattern
-    lps = [0]*M
-    j = 0  # index for pat[]
- 
-    # Preprocess the pattern (calculate lps[] array)
-    computeLPSArray(pat, M, lps)
- 
-    i = 0  # index for txt[]
-    while (N - i) >= (M - j):
-        if pat[j] == txt[i]:
-            i += 1
-            j += 1
- 
-        if j == M:
-            print("Found pattern at index " + str(i-j))
-            j = lps[j-1]
- 
-        # mismatch after j matches
-        elif i < N and pat[j] != txt[i]:
-            # Do not match lps[0..lps[j-1]] characters,
-            # they will match anyway
-            if j != 0:
-                j = lps[j-1]
-            else:
-                i += 1
+:KMP
+
+Código de aplicação do algorítmo em C
+
+``` c
+#include<stdio.h>
+#include<string.h>
+void KMPAlgorithm(char* text, char* pattern) {
+   int M = strlen(pattern);
+   int N = strlen(text);
+   int pps[M];
+   prefixSuffixArray(pattern, M, pps);
+   int i = 0;
+   int j = 0;
+   while (i < N) {
+      if (pattern[j] == text[i]) {
+         j++;
+         i++;
+      }
+      if (j == M) {
+         printf("Found pattern at index %d\n", i - j);
+         j = pps[j - 1];
+      }
+      else if (i < N && pattern[j] != text[i]) {
+         if (j != 0)
+         j = pps[j - 1];
+         else
+         i = i + 1;
+      }
+   
+   }
+}
+int main() {
+   char text[] = "AACTGGACGACACTAA";
+   char pattern[] = "ACAC";
+   KMPAlgorithm(text, pattern);
+   return 0;
+}
 ```
 
-Código de criação do vetor de repetições em python
+Código de criação do vetor de repetições em C
 
-``` py
-# Function to compute LPS array
-def computeLPSArray(pat, M, lps):
-    len = 0  # length of the previous longest prefix suffix
- 
-    lps[0] = 0  # lps[0] is always 0
-    i = 1
- 
-    # the loop calculates lps[i] for i = 1 to M-1
-    while i < M:
-        if pat[i] == pat[len]:
-            len += 1
-            lps[i] = len
-            i += 1
-        else:
-            # This is tricky. Consider the example.
-            # AAACAAAA and i = 7. The idea is similar
-            # to search step.
-            if len != 0:
-                len = lps[len-1]
- 
-                # Also, note that we do not increment i here
-            else:
-                lps[i] = 0
-                i += 1
- 
-```
+``` c
+#include<stdio.h>
+#include<string.h>
 
-Se não especificar nenhuma, o código fica com colorização de terminal.
-
-```
-hello world
+void prefixSuffixArray(char* pat, int M, int* pps) {
+   int length = 0;
+   pps[0] = 0;
+   int i = 1;
+   while (i < M) {
+      if (pat[i] == pat[length]) {
+         length++;
+         pps[i] = length;
+         i++;
+      } else {
+         if (length != 0)
+         length = pps[length - 1];
+         else {
+            pps[i] = 0;
+            i++;
+         }
+      }
+   
+    
+   }
+}
 ```
 
 
