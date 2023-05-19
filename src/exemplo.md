@@ -1,17 +1,25 @@
-Algorítmo Knuth-Morris-Pratt
+Algoritmo Knuth-Morris-Pratt (KMP)
 ======
 
-Explicação
+Contexto
 ---------
 
-O algorítmo Knuth-Morris-Pratt se trata de um algorítmo de busca de strings dentro de um texto.
+Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.
 
-O algóritmo envolve dois processos:
+História
+---------
+
+O algoritmo KMP foi primeiramente concebido por James H. Morris e, pouco tempo depois, descoberto independentemente por Donald Knuth (autor de _The Art of Computer Programming_), a partir da teoria dos autômatos (que consiste em desenvolver algoritmos para buscar palavras em texto). James Morris e Vaughan Pratt publicaram um relatório técnico sobre em 1970. O trio também publicou o algoritmo conjuntamente em 1977.
+
+Implementação matemática
+---------
+
+Ele consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).
+
+A aplicação deste algoritmo tem duas etapas:
 
 1. Criação do vetor de repetições
-2. Aplicação do algorítmo
-
-![](logo.png)
+2. Busca no texto
 
 Para tabelas, usa-se a [notação do
 MultiMarkdown](https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html),
@@ -36,10 +44,6 @@ imagens estão. Essa pasta também deve estar em *img*. (substituir por animaç�
 Código de aplicação do algorítmo em python
 
 ``` py
-
-# Python3 program for KMP Algorithm
- 
- 
 def KMPSearch(pat, txt):
     M = len(pat)
     N = len(txt)
