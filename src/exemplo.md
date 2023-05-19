@@ -30,16 +30,19 @@ possibilidades.
 |----------|----------|
 | 1        | 2        |
 
-Ao longo de um texto, você pode usar *itálico*, **negrito**, {red}(vermelho) e
-[[tecla]]. Também pode usar uma equação LaTeX: $f(n) \leq g(n)$. Se for muito
-grande, você pode isolá-la em um parágrafo.
 
-$$\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1$$
+Antes de demonstrar o funcionamento do algoritmo KMP é importante apresentar primeiro um algoritmo ingenuo que consiste em dois loops: um externo para percorrer o texto e um interno para percorrer a palavra buscada.
 
+Esta é uma simulação do código ingênuo:
 
 :Naive
 
+
+Esta é a construção do vetor de repetições:
+
 :Vetor
+
+E então uma simulação da aplicação do algoritmo KMP (vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração)
 
 :KMP
 
