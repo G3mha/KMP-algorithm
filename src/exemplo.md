@@ -73,7 +73,7 @@ Agora, dê a implementação, em C, para o algoritmo de busca ingênuo.
 #include <stdio.h>
 #include <string.h>
 
-int buscaIngenua(char* texto, char* string) {
+int busca_ingenua(char* texto, char* string) {
    int i, j;
    int M = strlen(string);
    int N = strlen(texto);
@@ -92,90 +92,30 @@ int buscaIngenua(char* texto, char* string) {
 
 ???
 
-Funcionamento
+Criando o vetor de repetições
 ---------
 
-TODO
+Para começar a implementar o KMP, devemos criar um vetor de repetições, que consiste em um vetor de inteiros que armazena o tamanho do maior prefixo que também é sufixo para cada posição da string buscada.
 
-Implementação matemática
----------
-
-TODO
-
-Implementação em C
----------
-
-TODO
-
-Comparando ao algoritmo ingênuo
----------
-
-TODO
-
-Aplicações reais
----------
-
-TODO
-
-
-Esta é a construção do vetor de repetições:
+Esta é a construção visual do vetor de repetições:
 
 :Vetor
 
-E então uma simulação da aplicação do algoritmo KMP (vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração)
+Abaixo, temos a implementação em C de uma funcão que cria o vetor de repetições:
 
-:KMP
+``` C
+#include <stdio.h>
+#include <string.h>
 
-Código de aplicação do algorítmo em C
-
-``` c
-#include<stdio.h>
-#include<string.h>
-void KMPAlgorithm(char* text, char* pattern) {
-   int M = strlen(pattern);
-   int N = strlen(text);
-   int pps[M];
-   prefixSuffixArray(pattern, M, pps);
-   int i = 0;
-   int j = 0;
-   while (i < N) {
-      if (pattern[j] == text[i]) {
-         j++;
-         i++;
-      }
-      if (j == M) {
-         printf("Found pattern at index %d\n", i - j);
-         j = pps[j - 1];
-      }
-      else if (i < N && pattern[j] != text[i]) {
-         if (j != 0)
-         j = pps[j - 1];
-         else
-         i = i + 1;
-      }
-   
-   }
-}
-int main() {
-   char text[] = "AACTGGACGACACTAA";
-   char pattern[] = "ACAC";
-   KMPAlgorithm(text, pattern);
-   return 0;
-}
-```
-
-Código de criação do vetor de repetições em C
-
-``` c
-#include<stdio.h>
-#include<string.h>
-
-void prefixSuffixArray(char* pat, int M, int* pps) {
+void cria_vetor_repeticoes(char* pattern, int M, int* pps) {
+   // pattern é a string buscada
+   // M é a quantidade de caracteres da string buscada
+   // pps é o vetor de repetições
    int length = 0;
    pps[0] = 0;
    int i = 1;
    while (i < M) {
-      if (pat[i] == pat[length]) {
+      if (pattern[i] == pattern[length]) {
          length++;
          pps[i] = length;
          i++;
@@ -187,27 +127,92 @@ void prefixSuffixArray(char* pat, int M, int* pps) {
             i++;
          }
       }
-   
-    
    }
 }
 ```
 
+Implementando o KMP
+---------
+
+Com o vetor de repetições criado, estamos livres para implementar o algoritmo KMP. Para isso, basta percorrer o texto e a string buscada simultaneamente, comparando os caracteres. Caso os caracteres sejam iguais, incrementamos o índice do texto e o índice da string buscada. Caso contrário, incrementamos apenas o índice do texto.
+
+Essa explicação pode ser confusa à primeira vista, por isso preste atenção na simulação visual algoritmo.
 
 !!! Aviso
-Este é um exemplo de aviso, entre `md !!!`.
+Vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração.
 !!!
 
+:KMP
 
-??? Exercício
+Complementando a explicaçao visual, temos a implementação em C do algoritmo KMP:
 
-Este é um exemplo de exercício, entre `md ???`.
+``` C
+#include <stdio.h>
+#include <string.h>
 
-::: Gabarito
-Este é um exemplo de gabarito, entre `md :::`.
-:::
+void busca_KMP(char* texto, char* string) {
+   int M = strlen(string);
+   int N = strlen(texto);
+   int pps[M];
+   cria_vetor_repeticoes(string, M, pps);
+   int i = 0;
+   int j = 0;
+   while (i < N) {
+      if (string[j] == texto[i]) {
+         j++;
+         i++;
+      }
+      if (j == M) {
+         printf("Found string at index %d\n", i - j);
+         j = pps[j - 1];
+      }
+      else if (i < N && string[j] != texto[i]) {
+         if (j != 0)
+         j = pps[j - 1];
+         else
+         i = i + 1;
+      }
+   
+   }
+}
 
-???
+int main() {
+   char texto[] = "AACTGGACGACACTAA";
+   char string[] = "ACAC";
+   busca_KMP(texto, string);
+   return 0;
+}
+```
 
+Comparando ao algoritmo ingênuo
+---------
 
-**Lembrar de remover estruturas de exemplos**
+TODO
+
+Implementação matemática
+---------
+
+TODO
+
+Aplicações reais
+---------
+
+O algoritmo KMP é utilizado em diversas aplicações, como:
+
+- Busca de padrões em textos
+- Busca de padrões em imagens
+- Busca de padrões em vídeos
+- Busca de padrões em áudios
+- Busca de padrões em DNA
+- Busca de padrões em proteínas
+- Busca de padrões em redes de computadores
+- Busca de padrões em sistemas de arquivos
+- Busca de padrões em sistemas de banco de dados
+- Busca de padrões em sistemas de compressão de dados
+- Busca de padrões em sistemas de criptografia
+- Busca de padrões em sistemas de processamento de sinais
+- Busca de padrões em sistemas de reconhecimento de voz
+- Busca de padrões em sistemas de reconhecimento de escrita
+- Busca de padrões em sistemas de reconhecimento de fala
+
+Ou seja, basicamente tudo que involve busca de padrões, em que este padrão seja representado para uma sequência de caracteres.
