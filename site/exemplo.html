@@ -25,103 +25,146 @@
 
 <p><a href="https://ensino.hashi.pro.br/desprog/" target="_blank">Desafios de Programação</a></p>
 <h1>Algoritmo Knuth-Morris-Pratt (KMP)</h1>
-<h2>Contexto</h2>
-<p>Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.</p>
 <h2>História</h2>
 <p>O algoritmo KMP foi primeiramente concebido por James H. Morris e, pouco tempo depois, descoberto independentemente por Donald Knuth (autor de <em>The Art of Computer Programming</em>), a partir da teoria dos autômatos (que consiste em desenvolver algoritmos para buscar palavras em texto). James Morris e Vaughan Pratt publicaram um relatório técnico sobre em 1970. O trio também publicou o algoritmo conjuntamente em 1977.</p>
-<h2>Implementação matemática</h2>
-<p>Ele consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).</p>
+<h2>Contexto</h2>
+<p>Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.</p>
+<p>O KMP consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).</p>
 <p>A aplicação deste algoritmo tem duas etapas:</p>
 <ol>
 <li>Criação do vetor de repetições</li>
 <li>Busca no texto</li>
 </ol>
-<p>Para tabelas, usa-se a <a href="https://fletcher.github.io/MultiMarkdown-6/syntax/tables.html" target="_blank">notação do
-MultiMarkdown</a>,
-que é muito flexível. Vale a pena abrir esse link para saber todas as
-possibilidades.</p>
-<figure class="table"><table>
-<thead>
-<tr>
-<th>coluna a</th>
-<th>coluna b</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>2</td>
-</tr>
-</tbody>
-</table></figure>
-<p>Ao longo de um texto, você pode usar <em>itálico</em>, <strong>negrito</strong>, <span class="md-colorify md-colorify--red">vermelho</span> e
-<kbd>tecla</kbd>. Também pode usar uma equação LaTeX: \(f(n) \leq g(n)\). Se for muito
-grande, você pode isolá-la em um parágrafo.</p>
-<p>\[\lim_{n \rightarrow \infty} \frac{f(n)}{g(n)} \leq 1\]</p>
-<p>Para inserir uma animação, use <code class="language-md">:</code> seguido do nome de uma pasta onde as
-imagens estão. Essa pasta também deve estar em <em>img</em>. (substituir por animação da aplicação do algorítmo em uma string)</p>
-<div class="animation"><img class="frame" src="img/bubble/bubble01.png" alt="1"><img class="frame" src="img/bubble/bubble02.png" alt="2"><img class="frame" src="img/bubble/bubble03.png" alt="3"><img class="frame" src="img/bubble/bubble04.png" alt="4"><img class="frame" src="img/bubble/bubble05.png" alt="5"><img class="frame" src="img/bubble/bubble06.png" alt="6"><img class="frame" src="img/bubble/bubble07.png" alt="7"><img class="frame" src="img/bubble/bubble08.png" alt="8"><img class="frame" src="img/bubble/bubble09.png" alt="9"><img class="frame" src="img/bubble/bubble10.png" alt="10"><img class="frame" src="img/bubble/bubble11.png" alt="11"><img class="frame" src="img/bubble/bubble12.png" alt="12"><img class="frame" src="img/bubble/bubble13.png" alt="13"><img class="frame" src="img/bubble/bubble14.png" alt="14"><img class="frame" src="img/bubble/bubble15.png" alt="15"><img class="frame" src="img/bubble/bubble16.png" alt="16"><img class="frame" src="img/bubble/bubble17.png" alt="17"><img class="frame" src="img/bubble/bubble18.png" alt="18"><img class="frame" src="img/bubble/bubble19.png" alt="19"><img class="frame" src="img/bubble/bubble20.png" alt="20"><img class="frame" src="img/bubble/bubble21.png" alt="21"><img class="frame" src="img/bubble/bubble22.png" alt="22"><img class="frame" src="img/bubble/bubble23.png" alt="23"><img class="frame" src="img/bubble/bubble24.png" alt="24"><img class="frame" src="img/bubble/bubble25.png" alt="25"><img class="frame" src="img/bubble/bubble26.png" alt="26"><img class="frame" src="img/bubble/bubble27.png" alt="27"><img class="frame" src="img/bubble/bubble28.png" alt="28"><img class="frame" src="img/bubble/bubble29.png" alt="29"><img class="frame" src="img/bubble/bubble30.png" alt="30"><img class="frame" src="img/bubble/bubble31.png" alt="31"><img class="frame" src="img/bubble/bubble32.png" alt="32"><img class="frame" src="img/bubble/bubble33.png" alt="33"><img class="frame" src="img/bubble/bubble34.png" alt="34"><img class="frame" src="img/bubble/bubble35.png" alt="35"><img class="frame" src="img/bubble/bubble36.png" alt="36"><img class="frame" src="img/bubble/bubble37.png" alt="37"><img class="frame" src="img/bubble/bubble38.png" alt="38"><img class="frame" src="img/bubble/bubble39.png" alt="39"><img class="frame" src="img/bubble/bubble40.png" alt="40"><img class="frame" src="img/bubble/bubble41.png" alt="41"><img class="frame" src="img/bubble/bubble42.png" alt="42"><img class="frame" src="img/bubble/bubble43.png" alt="43"><img class="frame" src="img/bubble/bubble44.png" alt="44"><img class="frame" src="img/bubble/bubble45.png" alt="45"><img class="frame" src="img/bubble/bubble46.png" alt="46"><img class="frame" src="img/bubble/bubble47.png" alt="47"><img class="frame" src="img/bubble/bubble48.png" alt="48"><img class="frame" src="img/bubble/bubble49.png" alt="49"><img class="frame" src="img/bubble/bubble50.png" alt="50"><img class="frame" src="img/bubble/bubble51.png" alt="51"><img class="frame" src="img/bubble/bubble52.png" alt="52"><img class="frame" src="img/bubble/bubble53.png" alt="53"><img class="frame" src="img/bubble/bubble54.png" alt="54"><img class="frame" src="img/bubble/bubble55.png" alt="55"><img class="frame" src="img/bubble/bubble56.png" alt="56"><img class="frame" src="img/bubble/bubble57.png" alt="57"><img class="frame" src="img/bubble/bubble58.png" alt="58"><img class="frame" src="img/bubble/bubble59.png" alt="59"><img class="frame" src="img/bubble/bubble60.png" alt="60"><img class="frame" src="img/bubble/bubble61.png" alt="61"><img class="frame" src="img/bubble/bubble62.png" alt="62"><img class="frame" src="img/bubble/bubble63.png" alt="63"><img class="frame" src="img/bubble/bubble64.png" alt="64"><img class="frame" src="img/bubble/bubble65.png" alt="65"><img class="frame" src="img/bubble/bubble66.png" alt="66"><img class="frame" src="img/bubble/bubble67.png" alt="67"><img class="frame" src="img/bubble/bubble68.png" alt="68"><img class="frame" src="img/bubble/bubble69.png" alt="69"><img class="frame" src="img/bubble/bubble70.png" alt="70"><img class="frame" src="img/bubble/bubble71.png" alt="71"></div>
-<p>Código de aplicação do algorítmo em python</p>
-<pre><code class="language-py">def KMPSearch(pat, txt):
-    M = len(pat)
-    N = len(txt)
- 
-    # create lps[] that will hold the longest prefix suffix
-    # values for pattern
-    lps = [0]*M
-    j = 0  # index for pat[]
- 
-    # Preprocess the pattern (calculate lps[] array)
-    computeLPSArray(pat, M, lps)
- 
-    i = 0  # index for txt[]
-    while (N - i) &gt;= (M - j):
-        if pat[j] == txt[i]:
-            i += 1
-            j += 1
- 
-        if j == M:
-            print("Found pattern at index " + str(i-j))
-            j = lps[j-1]
- 
-        # mismatch after j matches
-        elif i &lt; N and pat[j] != txt[i]:
-            # Do not match lps[0..lps[j-1]] characters,
-            # they will match anyway
-            if j != 0:
-                j = lps[j-1]
-            else:
-                i += 1
+<h2>Algoritmo ingênuo</h2>
+<p>Antes de demonstrar o funcionamento do algoritmo KMP é importante apresentar primeiro um algoritmo ingenuo que consiste em dois loops: um externo para percorrer o texto e um interno para percorrer a palavra buscada.</p>
+<p>A complexidade deste algoritmo é O(nm), onde n é o tamanho do texto e m o tamanho da palavra buscada.</p>
+<blockquote class="warning">
+<p>Aviso</p>
+<p>Vale ressaltar que quanto maior o número de elementos do vetor, maior é a sua ineficiência.</p>
+</blockquote>
+<p>Esta é uma simulação do código ingênuo:</p>
+<div class="animation"><img class="frame" src="img/Naive/Naive00.png" alt="1"><img class="frame" src="img/Naive/Naive01.png" alt="2"><img class="frame" src="img/Naive/Naive02.png" alt="3"><img class="frame" src="img/Naive/Naive03.png" alt="4"><img class="frame" src="img/Naive/Naive04.png" alt="5"><img class="frame" src="img/Naive/Naive05.png" alt="6"><img class="frame" src="img/Naive/Naive06.png" alt="7"><img class="frame" src="img/Naive/Naive07.png" alt="8"><img class="frame" src="img/Naive/Naive08.png" alt="9"><img class="frame" src="img/Naive/Naive09.png" alt="10"><img class="frame" src="img/Naive/Naive10.png" alt="11"><img class="frame" src="img/Naive/Naive11.png" alt="12"><img class="frame" src="img/Naive/Naive12.png" alt="13"><img class="frame" src="img/Naive/Naive13.png" alt="14"><img class="frame" src="img/Naive/Naive14.png" alt="15"><img class="frame" src="img/Naive/Naive15.png" alt="16"><img class="frame" src="img/Naive/Naive16.png" alt="17"><img class="frame" src="img/Naive/Naive17.png" alt="18"><img class="frame" src="img/Naive/Naive18.png" alt="19"><img class="frame" src="img/Naive/Naive19.png" alt="20"><img class="frame" src="img/Naive/Naive20.png" alt="21"><img class="frame" src="img/Naive/Naive21.png" alt="22"><img class="frame" src="img/Naive/Naive22.png" alt="23"><img class="frame" src="img/Naive/Naive23.png" alt="24"><img class="frame" src="img/Naive/Naive24.png" alt="25"><img class="frame" src="img/Naive/Naive25.png" alt="26"><img class="frame" src="img/Naive/Naive26.png" alt="27"><img class="frame" src="img/Naive/Naive27.png" alt="28"><img class="frame" src="img/Naive/Naive28.png" alt="29"><img class="frame" src="img/Naive/Naive29.png" alt="30"><img class="frame" src="img/Naive/Naive30.png" alt="31"><img class="frame" src="img/Naive/Naive31.png" alt="32"></div>
+<blockquote class="question">
+<p>Exercício 1</p>
+<p>Qual a implementação, em pseudo-código, para o algoritmo de busca ingênuo?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-pseudocode">começo algoritmo
+   para cada caractere do texto
+      se o caractere atual for igual ao primeiro caractere da string
+         para cada caractere da string
+            se o caractere atual do texto não for igual ao caractere atual da string
+               sai do loop interno
+            fim se
+            se todos os caracteres da string foram encontrados no texto
+               retorna a posição do primeiro caractere da string no texto
+            fim se
+         fim para
+      fim se
+   fim para
+   retorna -1
+fim algoritmo
 </code></pre>
-<p>Código de criação do vetor de repetições em python</p>
-<pre><code class="language-py"># Function to compute LPS array
-def computeLPSArray(pat, M, lps):
-    len = 0  # length of the previous longest prefix suffix
- 
-    lps[0] = 0  # lps[0] is always 0
-    i = 1
- 
-    # the loop calculates lps[i] for i = 1 to M-1
-    while i &lt; M:
-        if pat[i] == pat[len]:
-            len += 1
-            lps[i] = len
-            i += 1
-        else:
-            # This is tricky. Consider the example.
-            # AAACAAAA and i = 7. The idea is similar
-            # to search step.
-            if len != 0:
-                len = lps[len-1]
- 
-                # Also, note that we do not increment i here
-            else:
-                lps[i] = 0
-                i += 1
- 
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 2</p>
+<p>Agora, dê a implementação, em C, para o algoritmo de busca ingênuo.</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int buscaIngenua(char* texto, char* string) {
+   int i, j;
+   int M = strlen(string);
+   int N = strlen(texto);
+   for (i = 0; i &lt;= N - M; i++) {
+      for (j = 0; j &lt; M; j++)
+         if (texto[i + j] != string[j])
+            break;
+      if (j == M)
+         return i;
+   }
+   return -1;
+}
 </code></pre>
-<p>Se não especificar nenhuma, o código fica com colorização de terminal.</p>
-<pre><code class="terminal nohighlight">hello world
+</details>
+</blockquote>
+<h2>Funcionamento</h2>
+<p>TODO</p>
+<h2>Implementação matemática</h2>
+<p>TODO</p>
+<h2>Implementação em C</h2>
+<p>TODO</p>
+<h2>Comparando ao algoritmo ingênuo</h2>
+<p>TODO</p>
+<h2>Aplicações reais</h2>
+<p>TODO</p>
+<p>Esta é a construção do vetor de repetições:</p>
+<div class="animation"><img class="frame" src="img/Vetor/Vetor1.png" alt="1"><img class="frame" src="img/Vetor/Vetor2.png" alt="2"><img class="frame" src="img/Vetor/Vetor3.png" alt="3"><img class="frame" src="img/Vetor/Vetor4.png" alt="4"><img class="frame" src="img/Vetor/Vetor5.png" alt="5"><img class="frame" src="img/Vetor/Vetor6.png" alt="6"></div>
+<p>E então uma simulação da aplicação do algoritmo KMP (vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração)</p>
+<div class="animation"><img class="frame" src="img/KMP/KMP01.png" alt="1"><img class="frame" src="img/KMP/KMP02.png" alt="2"><img class="frame" src="img/KMP/KMP03.png" alt="3"><img class="frame" src="img/KMP/KMP04.png" alt="4"><img class="frame" src="img/KMP/KMP05.png" alt="5"><img class="frame" src="img/KMP/KMP06.png" alt="6"><img class="frame" src="img/KMP/KMP07.png" alt="7"><img class="frame" src="img/KMP/KMP08.png" alt="8"><img class="frame" src="img/KMP/KMP09.png" alt="9"><img class="frame" src="img/KMP/KMP10.png" alt="10"><img class="frame" src="img/KMP/KMP11.png" alt="11"><img class="frame" src="img/KMP/KMP12.png" alt="12"><img class="frame" src="img/KMP/KMP13.png" alt="13"><img class="frame" src="img/KMP/KMP14.png" alt="14"><img class="frame" src="img/KMP/KMP15.png" alt="15"><img class="frame" src="img/KMP/KMP16.png" alt="16"><img class="frame" src="img/KMP/KMP17.png" alt="17"><img class="frame" src="img/KMP/KMP18.png" alt="18"><img class="frame" src="img/KMP/KMP19.png" alt="19"><img class="frame" src="img/KMP/KMP20.png" alt="20"><img class="frame" src="img/KMP/KMP21.png" alt="21"><img class="frame" src="img/KMP/KMP22.png" alt="22"><img class="frame" src="img/KMP/KMP23.png" alt="23"><img class="frame" src="img/KMP/KMP24.png" alt="24"><img class="frame" src="img/KMP/KMP25.png" alt="25"><img class="frame" src="img/KMP/KMP26.png" alt="26"><img class="frame" src="img/KMP/KMP27.png" alt="27"><img class="frame" src="img/KMP/KMP28.png" alt="28"><img class="frame" src="img/KMP/KMP29.png" alt="29"><img class="frame" src="img/KMP/KMP30.png" alt="30"><img class="frame" src="img/KMP/KMP31.png" alt="31"><img class="frame" src="img/KMP/KMP32.png" alt="32"><img class="frame" src="img/KMP/KMP33.png" alt="33"><img class="frame" src="img/KMP/KMP34.png" alt="34"></div>
+<p>Código de aplicação do algorítmo em C</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+void KMPAlgorithm(char* text, char* pattern) {
+   int M = strlen(pattern);
+   int N = strlen(text);
+   int pps[M];
+   prefixSuffixArray(pattern, M, pps);
+   int i = 0;
+   int j = 0;
+   while (i &lt; N) {
+      if (pattern[j] == text[i]) {
+         j++;
+         i++;
+      }
+      if (j == M) {
+         printf("Found pattern at index %d\n", i - j);
+         j = pps[j - 1];
+      }
+      else if (i &lt; N &amp;&amp; pattern[j] != text[i]) {
+         if (j != 0)
+         j = pps[j - 1];
+         else
+         i = i + 1;
+      }
+   
+   }
+}
+int main() {
+   char text[] = "AACTGGACGACACTAA";
+   char pattern[] = "ACAC";
+   KMPAlgorithm(text, pattern);
+   return 0;
+}
+</code></pre>
+<p>Código de criação do vetor de repetições em C</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+
+void prefixSuffixArray(char* pat, int M, int* pps) {
+   int length = 0;
+   pps[0] = 0;
+   int i = 1;
+   while (i &lt; M) {
+      if (pat[i] == pat[length]) {
+         length++;
+         pps[i] = length;
+         i++;
+      } else {
+         if (length != 0)
+         length = pps[length - 1];
+         else {
+            pps[i] = 0;
+            i++;
+         }
+      }
+   
+    
+   }
+}
 </code></pre>
 <blockquote class="warning">
 <p>Aviso</p>
