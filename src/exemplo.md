@@ -63,6 +63,8 @@ fim algoritmo
 
 ???
 
+Aprimorando o algorítmo
+---------
 
 Agora vamos tentar encontrar uma maneira de reduzir o número de comparações redundantes realizadas no algoritmo, para isso vamos identificar quais comparações são realmente necessárias e quais podemos evitar.
 
