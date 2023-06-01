@@ -134,6 +134,39 @@ Antes de prosseguirmos com o uso destes conceitos, vamos praticar um pouco. Quai
 :::
 ???
 
+Agora que sabemos criar os prefixos e sufixos precisamos descobrir como utilizá-los para reduzir o número de comparações.
+
+
+Vamos voltar ao caso anterior:
+
+:EX3
+
+??? Exercício 5
+Neste caso a última comparação foi feita com o prefixo ABCAB, qual o sufixo deste prefixo que também é um prefixo da string buscada?
+
+::: Gabarito
+Consultando a tabela de prefixos e sufixos podemos ver que o sufixo que também é um prefixo da string buscada é AB.
+
+:GAB5
+
+:::
+???
+
+??? Exercício 6
+
+Que tipo de operação podemos fazer com este prefixo e sufixo para determinar o tamanho salto que deve ser feito na comparação?
+
+::: Gabarito
+A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo encontrado que também é um prefixo da string buscada tem tamanho 2. Assim, podemos fazer um salto de 5 - 2 = 3 posições na comparação. Resultando na mesma comparação exibida anteriormente:
+
+:GAB3
+
+:::
+???
+
+Se você entendeu tudo isso **PARABÉNS!** você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona e como implementá-lo.
+
+
 Criando o vetor de repetições
 ---------
 
