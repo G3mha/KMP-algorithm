@@ -35,7 +35,7 @@ Esta é uma simulação do código ingênuo:
 
 :Naive
 
-??? Exercício 1
+??? Exercício 0
 
 Qual a implementação, em pseudo-código, para o algoritmo de busca ingênuo?
 
@@ -63,34 +63,111 @@ fim algoritmo
 
 ???
 
-??? Exercício 2
+Aprimorando o algorítmo
+---------
 
-Agora, dê a implementação, em C, para o algoritmo de busca ingênuo.
+Agora vamos tentar encontrar uma maneira de reduzir o número de comparações redundantes realizadas no algoritmo, para isso vamos identificar quais comparações são realmente necessárias e quais podemos evitar.
+
+??? Exercício 1
+:EX1
+
+Vamos supor que estamos buscando a string ABCD no texto e acabamos de realizar a comparação sinalizada na imagem acima. É necessário continuar a busca a partir de qual elemento do texto?
 
 ::: Gabarito
 
-``` C
-#include <stdio.h>
-#include <string.h>
+Podemos ver imediatamente que a string buscada não se repete em nenhum momento, se sabemos disso assim como o fato que tivemos comparações de sucesso dos elementos B e C, podemos deduzir com certeza que nenhum dos valores que foram comparados a eles é igual ao primeiro elemento. Assim podemos fazer um salto na comparação e retomá-la da seguinte forma:
 
-int busca_ingenua(char* texto, char* string) {
-   int i, j;
-   int M = strlen(string);
-   int N = strlen(texto);
-   for (i = 0; i <= N - M; i++) {
-      for (j = 0; j < M; j++)
-         if (texto[i + j] != string[j])
-            break;
-      if (j == M)
-         return i;
-   }
-   return -1;
-}
-```
+:GAB1
 
 :::
-
 ???
+
+??? Exercício 2
+:EX2
+
+E neste caso, qual deve ser a próxima comparação necessária a se fazer?
+
+::: Gabarito
+
+Neste caso temos um raciocínio similar ao anterior, mas com condições opostas. Se sabemos que nossa string buscada se repete no segundo elemento e encontramos uma diferença ao compará-lo, sabemos que esta posição no texto não pode ser igual ao primeiro elemento da string buscada. Assim, podemos fazer um salto na comparação e retomá-la da seguinte forma:
+
+:GAB2
+:::
+???
+
+??? Exercício 3
+:EX3
+
+Vamos analisar um último caso para garantir que este raciocínio realmente funciona. Qual deve ser a próxima comparação necessária a se fazer?
+
+::: Gabarito
+
+Se você estava atento deve ter reparado que os elementos AB aparecem duas vezes juntos então, apesar da comparação ter falhado neste intervalo por causa do último termo, essa segunda aparição de AB pode ser ainda um outro começo para a string buscada. Assim o salto deve ser feito considerando essa repetição, da seguinte forma: 
+
+:GAB3
+
+:::
+???
+
+Certo, agora que temos uma ideia de como podemos reduzir o número de comparações, vamos tentar generalizar este raciocínio para criar um algoritmo que faça isso automaticamente.
+
+Para isso vamos precisar entender os conceitos de prefixo e sufixo.
+
+Prefixos e sufixos
+---------
+Utilizando o padrão buscado podemos construir vários prefixos, isto é, qualquer sequência de elementos encontrada no início da string buscada. Por exemplo, para a string ABCD temos os seguintes prefixos:
+
+:Prefixos1
+
+Da mesma forma podemos pegar cada um desses prefixos e construir seus sufixos, isto é, qualquer sequência de elementos encontrada no final de cada um dos prefixos. Para o caso anterior temos os seguintes sufixos:
+
+:Prefixos2
+
+
+??? Exercício 4
+
+:EX4
+
+Antes de prosseguirmos com o uso destes conceitos, vamos praticar um pouco. Quais são os prefixos e sufixos da string acima?
+
+::: Gabarito
+:GAB4
+
+:::
+???
+
+Agora que sabemos criar os prefixos e sufixos precisamos descobrir como utilizá-los para reduzir o número de comparações.
+
+
+Vamos voltar ao caso anterior:
+
+:EX3
+
+??? Exercício 5
+Neste caso a última comparação foi feita com o prefixo ABCAB, qual o sufixo deste prefixo que também é um prefixo da string buscada?
+
+::: Gabarito
+Consultando a tabela de prefixos e sufixos podemos ver que o sufixo que também é um prefixo da string buscada é AB.
+
+:GAB5
+
+:::
+???
+
+??? Exercício 6
+
+Que tipo de operação podemos fazer com este prefixo e sufixo para determinar o tamanho salto que deve ser feito na comparação?
+
+::: Gabarito
+A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo encontrado que também é um prefixo da string buscada tem tamanho 2. Assim, podemos fazer um salto de 5 - 2 = 3 posições na comparação. Resultando na mesma comparação exibida anteriormente:
+
+:GAB3
+
+:::
+???
+
+Se você entendeu tudo isso **PARABÉNS!** você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona e como implementá-lo.
+
 
 Criando o vetor de repetições
 ---------

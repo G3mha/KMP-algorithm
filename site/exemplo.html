@@ -45,7 +45,7 @@
 <p>Esta é uma simulação do código ingênuo:</p>
 <div class="animation"><img class="frame" src="img/Naive/Naive00.png" alt="1"><img class="frame" src="img/Naive/Naive01.png" alt="2"><img class="frame" src="img/Naive/Naive02.png" alt="3"><img class="frame" src="img/Naive/Naive03.png" alt="4"><img class="frame" src="img/Naive/Naive04.png" alt="5"><img class="frame" src="img/Naive/Naive05.png" alt="6"><img class="frame" src="img/Naive/Naive06.png" alt="7"><img class="frame" src="img/Naive/Naive07.png" alt="8"><img class="frame" src="img/Naive/Naive08.png" alt="9"><img class="frame" src="img/Naive/Naive09.png" alt="10"><img class="frame" src="img/Naive/Naive10.png" alt="11"><img class="frame" src="img/Naive/Naive11.png" alt="12"><img class="frame" src="img/Naive/Naive12.png" alt="13"><img class="frame" src="img/Naive/Naive13.png" alt="14"><img class="frame" src="img/Naive/Naive14.png" alt="15"><img class="frame" src="img/Naive/Naive15.png" alt="16"><img class="frame" src="img/Naive/Naive16.png" alt="17"><img class="frame" src="img/Naive/Naive17.png" alt="18"><img class="frame" src="img/Naive/Naive18.png" alt="19"><img class="frame" src="img/Naive/Naive19.png" alt="20"><img class="frame" src="img/Naive/Naive20.png" alt="21"><img class="frame" src="img/Naive/Naive21.png" alt="22"><img class="frame" src="img/Naive/Naive22.png" alt="23"><img class="frame" src="img/Naive/Naive23.png" alt="24"><img class="frame" src="img/Naive/Naive24.png" alt="25"><img class="frame" src="img/Naive/Naive25.png" alt="26"><img class="frame" src="img/Naive/Naive26.png" alt="27"><img class="frame" src="img/Naive/Naive27.png" alt="28"><img class="frame" src="img/Naive/Naive28.png" alt="29"><img class="frame" src="img/Naive/Naive29.png" alt="30"><img class="frame" src="img/Naive/Naive30.png" alt="31"><img class="frame" src="img/Naive/Naive31.png" alt="32"></div>
 <blockquote class="question">
-<p>Exercício 1</p>
+<p>Exercício 0</p>
 <p>Qual a implementação, em pseudo-código, para o algoritmo de busca ingênuo?</p>
 <details class="answer">
 <summary>Gabarito</summary>
@@ -67,30 +67,76 @@ fim algoritmo
 </code></pre>
 </details>
 </blockquote>
+<h2>Aprimorando o algorítmo</h2>
+<p>Agora vamos tentar encontrar uma maneira de reduzir o número de comparações redundantes realizadas no algoritmo, para isso vamos identificar quais comparações são realmente necessárias e quais podemos evitar.</p>
 <blockquote class="question">
-<p>Exercício 2</p>
-<p>Agora, dê a implementação, em C, para o algoritmo de busca ingênuo.</p>
+<p>Exercício 1</p>
+<div class="animation"><img class="frame" src="img/EX1/EX1.png" alt="1"></div>
+<p>Vamos supor que estamos buscando a string ABCD no texto e acabamos de realizar a comparação sinalizada na imagem acima. É necessário continuar a busca a partir de qual elemento do texto?</p>
 <details class="answer">
 <summary>Gabarito</summary>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-
-int busca_ingenua(char* texto, char* string) {
-   int i, j;
-   int M = strlen(string);
-   int N = strlen(texto);
-   for (i = 0; i &lt;= N - M; i++) {
-      for (j = 0; j &lt; M; j++)
-         if (texto[i + j] != string[j])
-            break;
-      if (j == M)
-         return i;
-   }
-   return -1;
-}
-</code></pre>
+<p>Podemos ver imediatamente que a string buscada não se repete em nenhum momento, se sabemos disso assim como o fato que tivemos comparações de sucesso dos elementos B e C, podemos deduzir com certeza que nenhum dos valores que foram comparados a eles é igual ao primeiro elemento. Assim podemos fazer um salto na comparação e retomá-la da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB1/GAB1.png" alt="1"></div>
 </details>
 </blockquote>
+<blockquote class="question">
+<p>Exercício 2</p>
+<div class="animation"><img class="frame" src="img/EX2/EX2.png" alt="1"></div>
+<p>E neste caso, qual deve ser a próxima comparação necessária a se fazer?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Neste caso temos um raciocínio similar ao anterior, mas com condições opostas. Se sabemos que nossa string buscada se repete no segundo elemento e encontramos uma diferença ao compará-lo, sabemos que esta posição no texto não pode ser igual ao primeiro elemento da string buscada. Assim, podemos fazer um salto na comparação e retomá-la da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB2/GAB2.png" alt="1"></div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 3</p>
+<div class="animation"><img class="frame" src="img/EX3/EX3.png" alt="1"></div>
+<p>Vamos analisar um último caso para garantir que este raciocínio realmente funciona. Qual deve ser a próxima comparação necessária a se fazer?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Se você estava atento deve ter reparado que os elementos AB aparecem duas vezes juntos então, apesar da comparação ter falhado neste intervalo por causa do último termo, essa segunda aparição de AB pode ser ainda um outro começo para a string buscada. Assim o salto deve ser feito considerando essa repetição, da seguinte forma:</p>
+<div class="animation"><img class="frame" src="img/GAB3/GAB3.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Certo, agora que temos uma ideia de como podemos reduzir o número de comparações, vamos tentar generalizar este raciocínio para criar um algoritmo que faça isso automaticamente.</p>
+<p>Para isso vamos precisar entender os conceitos de prefixo e sufixo.</p>
+<h2>Prefixos e sufixos</h2>
+<p>Utilizando o padrão buscado podemos construir vários prefixos, isto é, qualquer sequência de elementos encontrada no início da string buscada. Por exemplo, para a string ABCD temos os seguintes prefixos:</p>
+<div class="animation"><img class="frame" src="img/Prefixos1/PREF1.png" alt="1"></div>
+<p>Da mesma forma podemos pegar cada um desses prefixos e construir seus sufixos, isto é, qualquer sequência de elementos encontrada no final de cada um dos prefixos. Para o caso anterior temos os seguintes sufixos:</p>
+<div class="animation"><img class="frame" src="img/Prefixos2/Prefixos2.drawio.png" alt="1"></div>
+<blockquote class="question">
+<p>Exercício 4</p>
+<div class="animation"><img class="frame" src="img/EX4/EX4.png" alt="1"></div>
+<p>Antes de prosseguirmos com o uso destes conceitos, vamos praticar um pouco. Quais são os prefixos e sufixos da string acima?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<div class="animation"><img class="frame" src="img/GAB4/GAB4.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Agora que sabemos criar os prefixos e sufixos precisamos descobrir como utilizá-los para reduzir o número de comparações.</p>
+<p>Vamos voltar ao caso anterior:</p>
+<div class="animation"><img class="frame" src="img/EX3/EX3.png" alt="1"></div>
+<blockquote class="question">
+<p>Exercício 5</p>
+<p>Neste caso a última comparação foi feita com o prefixo ABCAB, qual o sufixo deste prefixo que também é um prefixo da string buscada?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>Consultando a tabela de prefixos e sufixos podemos ver que o sufixo que também é um prefixo da string buscada é AB.</p>
+<div class="animation"><img class="frame" src="img/GAB5/GAB5.png" alt="1"></div>
+</details>
+</blockquote>
+<blockquote class="question">
+<p>Exercício 6</p>
+<p>Que tipo de operação podemos fazer com este prefixo e sufixo para determinar o tamanho salto que deve ser feito na comparação?</p>
+<details class="answer">
+<summary>Gabarito</summary>
+<p>A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo encontrado que também é um prefixo da string buscada tem tamanho 2. Assim, podemos fazer um salto de 5 - 2 = 3 posições na comparação. Resultando na mesma comparação exibida anteriormente:</p>
+<div class="animation"><img class="frame" src="img/GAB3/GAB3.png" alt="1"></div>
+</details>
+</blockquote>
+<p>Se você entendeu tudo isso <strong>PARABÉNS!</strong> você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona e como implementá-lo.</p>
 <h2>Criando o vetor de repetições</h2>
 <p>Para começar a implementar o KMP, devemos criar um vetor de repetições, que consiste em um vetor de inteiros que armazena o tamanho do maior prefixo que também é sufixo para cada posição da string buscada.</p>
 <p>Esta é a construção visual do vetor de repetições:</p>
