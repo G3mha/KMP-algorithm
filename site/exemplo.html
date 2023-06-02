@@ -25,16 +25,11 @@
 
 <p><a href="https://ensino.hashi.pro.br/desprog/" target="_blank">Desafios de Programação</a></p>
 <h1>Algoritmo Knuth-Morris-Pratt (KMP)</h1>
-<h2>História</h2>
-<p>O algoritmo KMP foi primeiramente concebido por James H. Morris e, pouco tempo depois, descoberto independentemente por Donald Knuth (autor de <em>The Art of Computer Programming</em>), a partir da teoria dos autômatos (que consiste em desenvolver algoritmos para buscar palavras em texto). James Morris e Vaughan Pratt publicaram um relatório técnico sobre em 1970. O trio também publicou o algoritmo conjuntamente em 1977.</p>
-<h2>Contexto</h2>
-<p>Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.</p>
-<p>O KMP consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).</p>
-<p>A aplicação deste algoritmo tem duas etapas:</p>
-<ol>
-<li>Criação do vetor de repetições</li>
-<li>Busca no texto</li>
-</ol>
+<details class="answer">
+<summary>Slides</summary>
+<div class="animation"><img class="frame" src="img/SLIDES/.DS_Store" alt="1"><img class="frame" src="img/SLIDES/SLIDES00.png" alt="2"><img class="frame" src="img/SLIDES/SLIDES01.png" alt="3"><img class="frame" src="img/SLIDES/SLIDES02.png" alt="4"><img class="frame" src="img/SLIDES/SLIDES03.png" alt="5"><img class="frame" src="img/SLIDES/SLIDES04.png" alt="6"><img class="frame" src="img/SLIDES/SLIDES05.png" alt="7"><img class="frame" src="img/SLIDES/SLIDES06.png" alt="8"><img class="frame" src="img/SLIDES/SLIDES07.png" alt="9"><img class="frame" src="img/SLIDES/SLIDES08.png" alt="10"></div>
+</details>
+<hr>
 <h2>Algoritmo ingênuo</h2>
 <p>Antes de demonstrar o funcionamento do algoritmo KMP é importante apresentar primeiro um algoritmo ingenuo que consiste em dois loops: um externo para percorrer o texto e um interno para percorrer a palavra buscada.</p>
 <p>A complexidade deste algoritmo é O(nm), onde n é o tamanho do texto e m o tamanho da palavra buscada.</p>
@@ -212,10 +207,6 @@ int main() {
    return 0;
 }
 </code></pre>
-<h2>Comparando ao algoritmo ingênuo</h2>
-<p>TODO</p>
-<h2>Implementação matemática</h2>
-<p>TODO</p>
 <h2>Aplicações reais</h2>
 <p>O algoritmo KMP é utilizado em diversas aplicações, como:</p>
 <ul>

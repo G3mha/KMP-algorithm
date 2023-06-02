@@ -3,22 +3,12 @@
 Algoritmo Knuth-Morris-Pratt (KMP)
 ======
 
-História
+::: Slides
+
+:SLIDES
+
+:::
 ---------
-
-O algoritmo KMP foi primeiramente concebido por James H. Morris e, pouco tempo depois, descoberto independentemente por Donald Knuth (autor de _The Art of Computer Programming_), a partir da teoria dos autômatos (que consiste em desenvolver algoritmos para buscar palavras em texto). James Morris e Vaughan Pratt publicaram um relatório técnico sobre em 1970. O trio também publicou o algoritmo conjuntamente em 1977.
-
-Contexto
----------
-
-Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.
-
-O KMP consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).
-
-A aplicação deste algoritmo tem duas etapas:
-
-1. Criação do vetor de repetições
-2. Busca no texto
 
 Algoritmo ingênuo
 ---------
@@ -168,14 +158,12 @@ A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo enco
 
 Se você entendeu tudo isso **PARABÉNS!** você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona e como implementá-lo.
 
-
 Criando o vetor de repetições
 ---------
 
 Para começar a implementar o KMP, devemos criar um vetor de repetições, que consiste em um vetor de inteiros que armazena o tamanho do maior prefixo que também é sufixo para cada posição da string buscada.
 
 Esta é a construção visual do vetor de repetições:
-
 
 Abaixo, temos a implementação em C de uma funcão que cria o vetor de repetições:
 
@@ -259,16 +247,6 @@ int main() {
    return 0;
 }
 ```
-
-Comparando ao algoritmo ingênuo
----------
-
-TODO
-
-Implementação matemática
----------
-
-TODO
 
 Aplicações reais
 ---------
