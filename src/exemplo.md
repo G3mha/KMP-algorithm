@@ -99,7 +99,6 @@ Para começar a implementar o KMP, devemos criar um vetor de repetições, que c
 
 Esta é a construção visual do vetor de repetições:
 
-:Vetor
 
 Abaixo, temos a implementação em C de uma funcão que cria o vetor de repetições:
 
@@ -216,3 +215,50 @@ O algoritmo KMP é utilizado em diversas aplicações, como:
 - Busca de padrões em sistemas de reconhecimento de fala
 
 Ou seja, basicamente tudo que involve busca de padrões, em que este padrão seja representado para uma sequência de caracteres.
+
+Desafio: pensando na tabela de falhas
+---------
+
+Agora que você já entendeu como funciona o algoritmo KMP e a sua tabela de falhas em alto nível, pense em como essa tabela funciona do ponto de vista matemático, ou seja, como ela é construída. Se precisar, volte e revise a seção sobre a tabela de falhas. (COLOCAR LINK PARA A SEÇÃO)  
+Ainda, se quiser se desafiar, tente implementar a tabela de falhas em C.
+
+Gabarito
+---------
+
+A implementação matemática da tabela de falhas funciona ao atribuir a cada posição do vetor de falhas o tamanho do maior prefixo que também é sufixo para a substring que vai do primeiro caractere até o caractere atual. Ou seja, deve-se "numerar" cada caractere da substring caso ele seja parte de um trecho que se repete no início da substring.
+
+Tudo bem se não ficou claro, pois a explicação é um pouco confusa. Por isso, vamos ver um exemplo visual para a string "ABCABCD":
+  
+:Vetor  
+  
+No caso acima, as letras tem índices maiores que 0 porque elas repetem o primeiro caractere, o primeiro e o segundo caractere, o primeiro, o segundo e o terceiro caractere, e assim por diante. Porém, se a substring não se repetir, o índice é 0, como no caso da letra "D".  
+  
+Implementando isso em C, temos:
+
+``` C
+#include <stdio.h>
+#include <string.h>
+
+void cria_vetor_repeticoes(char* pattern, int M, int* pps) {
+   // pattern é a string buscada
+   // M é a quantidade de caracteres da string buscada
+   // pps é o vetor de repetições
+   int length = 0;
+   pps[0] = 0;
+   int i = 1;
+   while (i < M) {
+      if (pattern[i] == pattern[length]) {
+         length++;
+         pps[i] = length;
+         i++;
+      } else {
+         if (length != 0)
+         length = pps[length - 1];
+         else {
+            pps[i] = 0;
+            i++;
+         }
+      }
+   }
+}
+```
