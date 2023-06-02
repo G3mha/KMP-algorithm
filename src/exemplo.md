@@ -3,22 +3,12 @@
 Algoritmo Knuth-Morris-Pratt (KMP)
 ======
 
-História
+::: Slides
+
+:SLIDES
+
+:::
 ---------
-
-O algoritmo KMP foi primeiramente concebido por James H. Morris e, pouco tempo depois, descoberto independentemente por Donald Knuth (autor de _The Art of Computer Programming_), a partir da teoria dos autômatos (que consiste em desenvolver algoritmos para buscar palavras em texto). James Morris e Vaughan Pratt publicaram um relatório técnico sobre em 1970. O trio também publicou o algoritmo conjuntamente em 1977.
-
-Contexto
----------
-
-Este handout apresenta o funcionamento do algoritmo KMP e sua comparação ao algoritmo ingênuo de busca. Assim, destrincharemos sua implementação em C.
-
-O KMP consiste em um algoritmo de busca de strings que tem como pior caso a complexidade de tempo linear O(n).
-
-A aplicação deste algoritmo tem duas etapas:
-
-1. Criação do vetor de repetições
-2. Busca no texto
 
 Algoritmo ingênuo
 ---------
@@ -168,6 +158,45 @@ A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo enco
 
 Se você entendeu tudo isso **PARABÉNS!** você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona exatamente e como implementá-lo depois. Por enquanto, só aceite que o número embaixo da substring representa o tamanho do maior sufixo que também é um prefixo da string buscada e por consequência o tamanho do salto que deve ser feito na comparação, como mostrado nos exercícios que você acabou de fazer.
 
+<<<<<<< HEAD
+=======
+Criando o vetor de repetições
+---------
+
+Para começar a implementar o KMP, devemos criar um vetor de repetições, que consiste em um vetor de inteiros que armazena o tamanho do maior prefixo que também é sufixo para cada posição da string buscada.
+
+Esta é a construção visual do vetor de repetições:
+
+Abaixo, temos a implementação em C de uma funcão que cria o vetor de repetições:
+
+``` C
+#include <stdio.h>
+#include <string.h>
+
+void cria_vetor_repeticoes(char* pattern, int M, int* pps) {
+   // pattern é a string buscada
+   // M é a quantidade de caracteres da string buscada
+   // pps é o vetor de repetições
+   int length = 0;
+   pps[0] = 0;
+   int i = 1;
+   while (i < M) {
+      if (pattern[i] == pattern[length]) {
+         length++;
+         pps[i] = length;
+         i++;
+      } else {
+         if (length != 0)
+         length = pps[length - 1];
+         else {
+            pps[i] = 0;
+            i++;
+         }
+      }
+   }
+}
+```
+>>>>>>> 6c6bbf583ccd52cb66d7a7f8e3cb93385c3d0055
 
 Implementando o KMP
 ---------
@@ -222,12 +251,15 @@ int main() {
 }
 ```
 
+<<<<<<< HEAD
 Comparando ao algoritmo ingênuo
 ---------
 
 TODO
 
 
+=======
+>>>>>>> 6c6bbf583ccd52cb66d7a7f8e3cb93385c3d0055
 Aplicações reais
 ---------
 
