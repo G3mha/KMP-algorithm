@@ -158,52 +158,16 @@ A última comparação realizada, foi com um prefixo de tamanho 5. O sufixo enco
 
 Se você entendeu tudo isso **PARABÉNS!** você aprendeu a lógica do algorítmo de Knuth-Morris-Pratt. A implementação é um pouco mais difícil e utiliza um vetor de repetições (também chamado de tabela de falhas), mas não se preocupe, vamos ver como ele funciona exatamente e como implementá-lo depois. Por enquanto, só aceite que o número embaixo da substring representa o tamanho do maior sufixo que também é um prefixo da string buscada e por consequência o tamanho do salto que deve ser feito na comparação, como mostrado nos exercícios que você acabou de fazer.
 
-<<<<<<< HEAD
-=======
-Criando o vetor de repetições
----------
-
-Para começar a implementar o KMP, devemos criar um vetor de repetições, que consiste em um vetor de inteiros que armazena o tamanho do maior prefixo que também é sufixo para cada posição da string buscada.
-
-Esta é a construção visual do vetor de repetições:
-
-Abaixo, temos a implementação em C de uma funcão que cria o vetor de repetições:
-
-``` C
-#include <stdio.h>
-#include <string.h>
-
-void cria_vetor_repeticoes(char* pattern, int M, int* pps) {
-   // pattern é a string buscada
-   // M é a quantidade de caracteres da string buscada
-   // pps é o vetor de repetições
-   int length = 0;
-   pps[0] = 0;
-   int i = 1;
-   while (i < M) {
-      if (pattern[i] == pattern[length]) {
-         length++;
-         pps[i] = length;
-         i++;
-      } else {
-         if (length != 0)
-         length = pps[length - 1];
-         else {
-            pps[i] = 0;
-            i++;
-         }
-      }
-   }
-}
-```
->>>>>>> 6c6bbf583ccd52cb66d7a7f8e3cb93385c3d0055
+![image](salto.png "o salto")
 
 Implementando o KMP
 ---------
 
 Com o vetor de repetições criado, estamos livres para implementar o algoritmo KMP. Para isso, basta percorrer o texto e a string buscada simultaneamente, comparando os caracteres. Caso os caracteres sejam iguais, incrementamos o índice do texto e o índice da string buscada. Caso contrário, incrementamos apenas o índice do texto.
 
-Essa explicação pode ser confusa à primeira vista, por isso preste atenção na simulação visual algoritmo.
+Os números embaixo da substring mostram qual é o índice do próximo caractere que deve ser comparado no texto, olhando sempre o índice do último caractere que deu match. Por exemplo, se você comparou "ACAA" com a substring "ACAC", você deve olhar o índice em baixo do último caractere que deu match (o segundo A) e comparar o caractere do texto que está na posição indicada (o primeiro C) com o char que deu mismatch (o segundo C).  
+
+Essa explicação pode ser confusa à primeira vista, por isso preste atenção na simulação visual algoritmo.  
 
 !!! Aviso
 Vale-se notar que cada imagem não se trata de uma iteração, visto que as comparações e incremento de i e j acontecem dentro de uma única iteração.
@@ -251,15 +215,6 @@ int main() {
 }
 ```
 
-<<<<<<< HEAD
-Comparando ao algoritmo ingênuo
----------
-
-TODO
-
-
-=======
->>>>>>> 6c6bbf583ccd52cb66d7a7f8e3cb93385c3d0055
 Aplicações reais
 ---------
 
